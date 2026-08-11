@@ -12,6 +12,19 @@ fonty, skrypty design systemu i obrazy są zaszyte w każdym pliku.
 
 Linki między stronami są względne (`login.html` itd.), więc działają w każdym katalogu.
 
+## Automatyczne przełączanie desktop / mobile
+
+Każdy plik sprawdza przy wejściu szerokość ekranu i typ wskaźnika:
+poniżej 900px (albo ekran dotykowy poniżej 1000px) `index.html` przekierowuje na
+`mobile.html`, a `login.html` na `login-mobile.html`. W drugą stronę: wersje mobilne
+na ekranie ≥1000px bez dotyku wracają na desktopową.
+
+Żeby zobaczyć konkretną wersję niezależnie od urządzenia, dodaj `?noswitch` do adresu,
+np. `…/index.html?noswitch`.
+
+Widoki mają stałą szerokość projektową (1440px i 390px) ustawioną w `<meta viewport>`,
+więc na telefonie strona skaluje się do szerokości ekranu zamiast wystawać poza kadr.
+
 ## Git
 
 ```
