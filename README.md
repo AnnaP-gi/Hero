@@ -19,7 +19,16 @@ Każda strona ma skrypt, który przy wejściu sprawdza urządzenie (user agent +
 i w razie potrzeby przekierowuje do odpowiednika: `index.html` ↔ `mobile.html`,
 `search.html` ↔ `search-mobile.html`, `login.html` ↔ `login-mobile.html`.
 
+Decyzja opiera się na user agencie i `screen.width` (< 820 px = mobile) — nie na szerokości okna,
+żeby meta viewport poszczególnych makiet nie powodowała pętli przekierowań. Dodatkowo obowiązuje
+limit jednego przekierowania na sesję (`sessionStorage: alk-nr`).
+
 Wymuszenie widoku: `?view=desktop` albo `?view=mobile` (zapamiętywane w localStorage).
+Reset wymuszenia: wyczyść localStorage klucz `alk-view`.
+
+## Uwaga
+
+Na stronie wyników pasek nawigacji jest statyczny (linki działają, mega menu nie rozwija się).
 
 ## Przejścia
 
