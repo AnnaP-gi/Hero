@@ -1,6 +1,9 @@
 # ALK — makieta Ciemna 2 (desktop + mobile)
 
-Statyczne, samodzielne pliki HTML. Każdy plik zawiera wszystkie zasoby w środku — nie wymaga budowania.
+Statyczne, samodzielne pliki HTML. Wszystkie zasoby (fonty, obrazy, skrypty) są w środku — nie
+wymagają budowania ani połączenia z zewnętrznymi serwerami.
+
+Wygenerowane: 9 września 2026. Zawiera wyłącznie wersję **Ciemną 2** (desktop) i jej ciemny odpowiednik mobilny.
 
 ## Strony
 
@@ -15,28 +18,27 @@ Statyczne, samodzielne pliki HTML. Każdy plik zawiera wszystkie zasoby w środk
 
 ## Rozpoznawanie urządzenia
 
-Każda strona ma skrypt, który przy wejściu sprawdza urządzenie (user agent + szerokość < 820 px)
-i w razie potrzeby przekierowuje do odpowiednika: `index.html` ↔ `mobile.html`,
-`search.html` ↔ `search-mobile.html`, `login.html` ↔ `login-mobile.html`.
+Domyślny jest **desktop**. Na wersję mobilną przenoszą się wyłącznie urządzenia mobilne
+rozpoznane po user agencie (Android / iPhone / iPod / IEMobile / Opera Mini oraz iPad w trybie
+desktop-UA rozpoznawany po dotyku i szerokości ekranu). Szerokość okna przeglądarki nie ma
+znaczenia — wąskie okno na desktopie nie przełącza widoku.
 
-Decyzja opiera się na user agencie i `screen.width` (< 820 px = mobile) — nie na szerokości okna,
-żeby meta viewport poszczególnych makiet nie powodowała pętli przekierowań. Dodatkowo obowiązuje
-limit jednego przekierowania na sesję (`sessionStorage: alk-nr`).
+Obowiązuje limit jednego przekierowania na sesję (`sessionStorage: alk-nr`), więc pętle nie występują.
+Wymuszenie widoku: `?view=desktop` albo `?view=mobile` (zapamiętywane w `localStorage`, klucz
+`alk-view` — wyczyść, aby wrócić do automatu).
 
-Wymuszenie widoku: `?view=desktop` albo `?view=mobile` (zapamiętywane w localStorage).
-Reset wymuszenia: wyczyść localStorage klucz `alk-view`.
+## Menu i belka rekrutacyjna
 
-## Uwaga
-
-Na stronie wyników pasek nawigacji jest statyczny (linki działają, mega menu nie rozwija się).
-
-## Przejścia
-
-- Logo w nagłówku → strona główna
-- Zaloguj się → `login.html`
-- SZUKAJ w wyszukiwarce → `search.html`
+- Górne menu (logo + zakładki + mega menu) jest **sticky na każdej stronie**
+- Niebieska belka rekrutacyjna jest **zamykalna (X)** i nie jest przypięta — na stronie głównej
+  i na wynikach wyszukiwania
+- Na stronie logowania belki **nie ma**
+- Logo → strona główna, Zaloguj się → `login.html`, SZUKAJ → `search.html`
 
 ## Deployment
 
 Vercel: `vercel deploy --prod` w tym katalogu (albo import repo z GitHuba — bez ustawień budowania,
-katalog wyjściowy = katalog projektu).
+Framework Preset = Other, katalog wyjściowy = katalog projektu).
+
+GitHub: wystarczy wrzucić zawartość tego katalogu do repozytorium (można też włączyć GitHub Pages
+z katalogu głównego — `index.html` jest stroną startową).
