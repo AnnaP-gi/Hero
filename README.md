@@ -3,42 +3,42 @@
 Trzy samodzielne pliki HTML. Wszystkie zasoby — fonty, obrazy, logotypy akredytacji i rankingów,
 skrypty — są wbudowane w środku. Żadnych podfolderów, żadnego budowania.
 
-## Pliki
-
 | Plik | Widok |
 | --- | --- |
 | `index.html` | Strona główna |
 | `search.html` | Wyniki wyszukiwania |
 | `login.html` | Zaloguj się |
-| `vercel.json` | Konfiguracja (opcjonalna) |
 
-Linki między stronami: logo → `index.html`, „Zaloguj się" → `login.html`, „SZUKAJ" → `search.html`.
-Nazwy plików są użyte dosłownie, więc działają też przy otwarciu z dysku — wystarczy kliknąć
-dwukrotnie `index.html`.
+Linki: logo → `index.html`, „Zaloguj się" → `login.html`, „SZUKAJ" → `search.html`.
 
-## Wgranie na Vercel — najprostsza droga
+## Usuń `vercel.json` z repozytorium
 
-1. Wejdź na **vercel.com/new**
-2. Przeciągnij na stronę te trzy pliki HTML (lub cały rozpakowany folder)
-3. Framework Preset: **Other**. Nie wpisuj polecenia budowania ani katalogu wyjściowego
-4. Deploy
+To najpewniejsza przyczyna obecnego 404. Poprzednia wersja tego pliku zawierała
+`"outputDirectory": "."`, co przy projekcie bez budowania każe Vercelowi szukać katalogu
+wyjściowego zamiast po prostu podać pliki — i kończy się `404: NOT_FOUND`.
 
-Przez CLI: `vercel deploy --prod` uruchomione **w katalogu z tymi plikami**.
+Repozytorium z samymi plikami HTML w katalogu głównym nie potrzebuje żadnej konfiguracji.
+Na GitHubie: otwórz `vercel.json` → ikona kosza → Commit changes. Vercel przebuduje sam.
 
-## Jeśli pojawia się 404: NOT_FOUND
+## Jeśli 404 zostanie
 
-Najczęstsze przyczyny, w kolejności prawdopodobieństwa:
+1. **Ustawienia projektu.** Panel Vercela → Settings → Build and Deployment.
+   Framework Preset = **Other**, Build Command, Output Directory i Install Command — puste
+   (przełączniki „Override" wyłączone). Root Directory puste
+2. **Log wdrożenia.** Deployments → wybierz najnowsze → sprawdź, czy status to Ready.
+   Jeśli Error, w logu widać przyczynę
+3. **Rozmiar plików.** Mają po 9–11 MB. Jeśli GitHub przy którymś pokazuje
+   „Stored with Git LFS", Vercel dostanie wskaźnik zamiast pliku. Wgrywaj przez
+   Add file → Upload files, nie przez klienta z włączonym LFS
+4. **Cache przeglądarki.** Otwórz adres w trybie prywatnym
 
-1. **Wgrany został sam folder, nie jego zawartość.** Wtedy strony leżą pod
-   `/deploy/index.html`, a nie pod `/`. W panelu Vercela: Settings → Build and Deployment →
-   Root Directory → wskaż `deploy` (albo wgraj ponownie samą zawartość folderu)
-2. **Brakuje pliku.** 404 na `/search.html` oznacza, że wgrany został tylko `index.html`.
-   Wszystkie trzy pliki muszą leżeć obok siebie
-3. **Adres wpisany ręcznie.** Otwórz adres główny (`https://nazwa.vercel.app`), nie podstronę
-4. **Nieudany build.** Zakładka Deployments → wybierz wdrożenie → Building. Jeśli Vercel próbuje
-   cokolwiek budować, usuń ustawienia budowania (Framework Preset = Other, puste pola)
+## Porządki w repozytorium (opcjonalnie)
 
-## vercel.json
+Pliki `ciemny-1.html`, `ciemny-2.html`, `mobile-ciemny.html`, `mobile.html`,
+`search-mobile.html`, `login-mobile.html` to poprzednie wersje. Nie przeszkadzają, ale można
+je usunąć — aktualne są tylko `index.html`, `search.html` i `login.html`.
 
-Zawiera tylko odwołanie do schematu — konfiguracja nie jest potrzebna, bo to zwykłe pliki
-statyczne. Plik można usunąć bez żadnych konsekwencji.
+## Test rozstrzygający
+
+Otwórz `index.html` dwuklikiem z dysku. Jeśli działa lokalnie, a nie po wgraniu, przyczyna
+leży w konfiguracji Vercela — nie w plikach.
