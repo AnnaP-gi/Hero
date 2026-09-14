@@ -1,44 +1,44 @@
-# ALK — makieta Ciemna 2 (desktop + mobile)
+# ALK — makieta Ciemna 2 (desktop)
 
-Statyczne, samodzielne pliki HTML. Wszystkie zasoby (fonty, obrazy, skrypty) są w środku — nie
-wymagają budowania ani połączenia z zewnętrznymi serwerami.
+Trzy samodzielne pliki HTML. Wszystkie zasoby — fonty, obrazy, logotypy akredytacji i rankingów,
+skrypty — są wbudowane w środku. Żadnych podfolderów, żadnego budowania.
 
-Wygenerowane: 9 września 2026. Zawiera wyłącznie wersję **Ciemną 2** (desktop) i jej ciemny odpowiednik mobilny.
-
-## Strony
+## Pliki
 
 | Plik | Widok |
 | --- | --- |
-| `index.html` | Strona główna — Ciemna 2 (desktop) |
-| `mobile.html` | Strona główna — ciemna (mobile) |
-| `search.html` | Wyniki wyszukiwania (desktop) |
-| `search-mobile.html` | Wyniki wyszukiwania (mobile) |
-| `login.html` | Zaloguj się (desktop) |
-| `login-mobile.html` | Zaloguj się (mobile) |
+| `index.html` | Strona główna |
+| `search.html` | Wyniki wyszukiwania |
+| `login.html` | Zaloguj się |
+| `vercel.json` | Konfiguracja (opcjonalna) |
 
-## Rozpoznawanie urządzenia
+Linki między stronami: logo → `index.html`, „Zaloguj się" → `login.html`, „SZUKAJ" → `search.html`.
+Nazwy plików są użyte dosłownie, więc działają też przy otwarciu z dysku — wystarczy kliknąć
+dwukrotnie `index.html`.
 
-Domyślny jest **desktop**. Na wersję mobilną przenoszą się wyłącznie urządzenia mobilne
-rozpoznane po user agencie (Android / iPhone / iPod / IEMobile / Opera Mini oraz iPad w trybie
-desktop-UA rozpoznawany po dotyku i szerokości ekranu). Szerokość okna przeglądarki nie ma
-znaczenia — wąskie okno na desktopie nie przełącza widoku.
+## Wgranie na Vercel — najprostsza droga
 
-Obowiązuje limit jednego przekierowania na sesję (`sessionStorage: alk-nr`), więc pętle nie występują.
-Wymuszenie widoku: `?view=desktop` albo `?view=mobile` (zapamiętywane w `localStorage`, klucz
-`alk-view` — wyczyść, aby wrócić do automatu).
+1. Wejdź na **vercel.com/new**
+2. Przeciągnij na stronę te trzy pliki HTML (lub cały rozpakowany folder)
+3. Framework Preset: **Other**. Nie wpisuj polecenia budowania ani katalogu wyjściowego
+4. Deploy
 
-## Menu i belka rekrutacyjna
+Przez CLI: `vercel deploy --prod` uruchomione **w katalogu z tymi plikami**.
 
-- Górne menu (logo + zakładki + mega menu) jest **sticky na każdej stronie**
-- Niebieska belka rekrutacyjna jest **zamykalna (X)** i nie jest przypięta — na stronie głównej
-  i na wynikach wyszukiwania
-- Na stronie logowania belki **nie ma**
-- Logo → strona główna, Zaloguj się → `login.html`, SZUKAJ → `search.html`
+## Jeśli pojawia się 404: NOT_FOUND
 
-## Deployment
+Najczęstsze przyczyny, w kolejności prawdopodobieństwa:
 
-Vercel: `vercel deploy --prod` w tym katalogu (albo import repo z GitHuba — bez ustawień budowania,
-Framework Preset = Other, katalog wyjściowy = katalog projektu).
+1. **Wgrany został sam folder, nie jego zawartość.** Wtedy strony leżą pod
+   `/deploy/index.html`, a nie pod `/`. W panelu Vercela: Settings → Build and Deployment →
+   Root Directory → wskaż `deploy` (albo wgraj ponownie samą zawartość folderu)
+2. **Brakuje pliku.** 404 na `/search.html` oznacza, że wgrany został tylko `index.html`.
+   Wszystkie trzy pliki muszą leżeć obok siebie
+3. **Adres wpisany ręcznie.** Otwórz adres główny (`https://nazwa.vercel.app`), nie podstronę
+4. **Nieudany build.** Zakładka Deployments → wybierz wdrożenie → Building. Jeśli Vercel próbuje
+   cokolwiek budować, usuń ustawienia budowania (Framework Preset = Other, puste pola)
 
-GitHub: wystarczy wrzucić zawartość tego katalogu do repozytorium (można też włączyć GitHub Pages
-z katalogu głównego — `index.html` jest stroną startową).
+## vercel.json
+
+Zawiera tylko odwołanie do schematu — konfiguracja nie jest potrzebna, bo to zwykłe pliki
+statyczne. Plik można usunąć bez żadnych konsekwencji.
